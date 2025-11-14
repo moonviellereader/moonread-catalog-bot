@@ -1,1 +1,1 @@
-
+web: python MoonCatalogBot.py
