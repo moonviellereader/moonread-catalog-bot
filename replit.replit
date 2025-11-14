@@ -1,0 +1,9 @@
+run = "python3 MoonCatalogBot.py"
+language = "python3"
+
+[nix]
+channel = "stable-23_11"
+
+[deployment]
+run = ["python3", "MoonCatalogBot.py"]
+deploymentTarget = "cloudrun"
