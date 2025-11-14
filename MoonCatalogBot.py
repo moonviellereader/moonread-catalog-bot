@@ -342,16 +342,17 @@ def main():
     print("=" * 70)
     print("\nBot is running! Press Ctrl+C to stop.\n")
     
-    # Run bot in separate thread
-    def run_bot():
-        application.run_polling(allowed_updates=Update.ALL_TYPES)
+    # Run bot in separate thread with proper event loop
+    import asyncio
     
-    bot_thread = threading.Thread(target=run_bot)
-    bot_thread.daemon = True
+    def run_bot():
+        asyncio.run(application.run_polling(allowed_updates=Update.ALL_TYPES))
+    
+    bot_thread = threading.Thread(target=run_bot, daemon=True)
     bot_thread.start()
     
-    # Run Flask server (Choreo requires this)
-    print("🌐 Starting web server for Choreo health checks...")
+    # Run Flask server (for Replit/Choreo health checks)
+    print("🌐 Starting web server for health checks...")
     app.run(host='0.0.0.0', port=8080)
 
 
