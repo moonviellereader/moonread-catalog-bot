@@ -344,18 +344,16 @@ def main():
     print("=" * 70)
     print("\nBot is running! Press Ctrl+C to stop.\n")
     
-    # Run bot in separate thread with proper event loop
-    import asyncio
+    # Run Flask server in background thread
+    def run_flask():
+        app.run(host='0.0.0.0', port=8080, debug=False, use_reloader=False)
     
-    def run_bot():
-        asyncio.run(application.run_polling(allowed_updates=Update.ALL_TYPES))
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
+    flask_thread.start()
+    print("🌐 Web server started on port 8080\n")
     
-    bot_thread = threading.Thread(target=run_bot, daemon=True)
-    bot_thread.start()
-    
-    # Run Flask server (for Replit/Choreo health checks)
-    print("🌐 Starting web server for health checks...")
-    app.run(host='0.0.0.0', port=8080)
+    # Run bot in main thread
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
 if __name__ == '__main__':
