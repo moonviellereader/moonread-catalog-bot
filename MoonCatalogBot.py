@@ -11,6 +11,7 @@ import logging
 from telegraph import Telegraph
 import threading
 from flask import Flask
+import os
 
 # Setup logging
 logging.basicConfig(
@@ -20,7 +21,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Bot Configuration - MoonCatalogBot
-BOT_TOKEN = '8278022191:AAHK_mm_cVMwF5Hz-vDoKzOpzlRS8mPOXec'
+# Read token from environment variable (Replit Secrets) or use default
+BOT_TOKEN = os.getenv('BOT_TOKEN', '8278022191:AAHK_mm_cVMwF5Hz-vDoKzOpzlRS8mPOXec')
 
 # Initialize Telegraph
 telegraph = Telegraph()
