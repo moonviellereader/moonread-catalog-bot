@@ -1,1 +1,68 @@
+# Choreo Component Configuration
+schemaVersion: 1.0
 
+# Component metadata
+name: moonread-catalog-bot
+displayName: Moon Read Catalog Bot
+description: Telegram bot for Moon Read catalog with 997+ books
+
+# Component type
+type: Service
+
+# Build configuration
+build:
+  type: Python
+  pythonVersion: "3.11"
+  
+# Runtime configuration  
+run:
+  command: python MoonCatalogBot.py
+  
+# Endpoints
+endpoints:
+  - name: health
+    port: 8080
+    type: REST
+    
+# Resources
+resources:
+  memory: 512Mi
+  cpu: "0.5"
+```
+
+5. **Scroll ke bawah**
+
+6. **Commit message:** `Add Choreo configuration`
+
+7. **Klik "Commit new file"**
+
+✅ **SELESAI!** Folder `.choreo` dengan file `component.yaml` sudah dibuat!
+
+---
+
+## 🔍 **Verifikasi:**
+
+Setelah commit, cek apakah struktur folder sudah benar:
+```
+moonread-catalog-bot/
+├── .choreo/
+│   └── component.yaml    ← Harus ada file ini
+├── MoonCatalogBot.py
+├── titles_and_links_alphabetical.csv
+└── requirements.txt
+```
+
+Klik folder `.choreo` → Harus ada file `component.yaml` di dalamnya
+
+---
+
+## 🎥 **Visual Guide:**
+
+**Tampilan di GitHub saat ketik nama file:**
+```
+Name your file...
+┌─────────────────────────────────┐
+│ .choreo/component.yaml          │  ← Ketik seperti ini
+└─────────────────────────────────┘
+        ↑        ↑
+    Folder    File
