@@ -1,0 +1,30 @@
+# Choreo Component Configuration
+schemaVersion: 1.0
+
+# Component metadata
+name: moonread-catalog-bot
+displayName: Moon Read Catalog Bot
+description: Telegram bot for Moon Read catalog with 997+ books
+
+# Component type
+type: Service
+
+# Build configuration
+build:
+  type: Python
+  pythonVersion: "3.11"
+  
+# Runtime configuration  
+run:
+  command: python MoonCatalogBot.py
+  
+# Endpoints
+endpoints:
+  - name: health
+    port: 8080
+    type: REST
+    
+# Resources
+resources:
+  memory: 512Mi
+  cpu: "0.5"

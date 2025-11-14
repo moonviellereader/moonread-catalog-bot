@@ -9,6 +9,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import csv
 import logging
 from telegraph import Telegraph
+import threading
+from flask import Flask
 
 # Setup logging
 logging.basicConfig(
@@ -23,6 +25,17 @@ BOT_TOKEN = '8278022191:AAHK_mm_cVMwF5Hz-vDoKzOpzlRS8mPOXec'
 # Initialize Telegraph
 telegraph = Telegraph()
 telegraph.create_account(short_name='MoonRead', author_name='Moon Read Catalog')
+
+# Initialize Flask for health check (required by Choreo)
+app = Flask(__name__)
+
+@app.route('/')
+def health_check():
+    return {'status': 'Bot is running', 'books': len(BOOKS)}, 200
+
+@app.route('/health')
+def health():
+    return {'status': 'healthy'}, 200
 
 # Load catalog data
 BOOKS = []
@@ -329,7 +342,17 @@ def main():
     print("=" * 70)
     print("\nBot is running! Press Ctrl+C to stop.\n")
     
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    # Run bot in separate thread
+    def run_bot():
+        application.run_polling(allowed_updates=Update.ALL_TYPES)
+    
+    bot_thread = threading.Thread(target=run_bot)
+    bot_thread.daemon = True
+    bot_thread.start()
+    
+    # Run Flask server (Choreo requires this)
+    print("🌐 Starting web server for Choreo health checks...")
+    app.run(host='0.0.0.0', port=8080)
 
 
 if __name__ == '__main__':
